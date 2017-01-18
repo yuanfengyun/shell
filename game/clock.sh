@@ -93,6 +93,7 @@ function in_rectangle(){
 	return 1
 }
 
+# to-do 清屏
 #清除屏幕，擦除原来有，现在没有的格子
 function clear_screen(){
 	local old_y=$1
@@ -154,8 +155,8 @@ function main(){
 		if [ $py -eq $old_py -a $px -eq $old_px ]; then
 			continue
 		fi
-		clear_screen $old_py $old_px $py $px
-		#clear
+		#clear_screen $old_py $old_px $py $px
+		clear
 		old_py=$py
 		old_px=$px
 		print_time $py $px
