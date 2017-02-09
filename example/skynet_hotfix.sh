@@ -260,6 +260,44 @@ function cmd_update_agent_service(){
     done
 }
 
+# 更新agent,quest_mgr模块
+function cmd_update_agent_quest_mgr(){
+    local line
+    echo "clearcache" >&5
+    read -t5 line <&5
+    local service_name=$1
+    find_all_service "agent"
+
+    for addr in ${service_list[*]}; do
+        echo "call ${addr} 'hotfix_quest_mgr'" >&5
+        while read -t 10 line <&5; do
+            if [ "$line"x = "<CMD OK>"x ]; then
+                echo "${addr}: success"
+                break
+            fi
+        done
+    done
+}
+
+# 更新agent,quest_mgr模块
+function cmd_update_agent_scene_mgr(){
+    local line
+    echo "clearcache" >&5
+    read -t5 line <&5
+    local service_name=$1
+    find_all_service "agent"
+
+    for addr in ${service_list[*]}; do
+        echo "call ${addr} 'hotfix_scene_mgr'" >&5
+        while read -t 10 line <&5; do
+            if [ "$line"x = "<CMD OK>"x ]; then
+                echo "${addr}: success"
+                break
+            fi
+        done
+    done
+}
+
 function select_cmd(){
     selection=()
     selection[0]=立即关服
@@ -269,8 +307,9 @@ function select_cmd(){
     selection[4]=清除agent_pool
     selection[5]=更新agent子模块
     selection[6]=更新agent网络子模块
-    selection[7]=退出
-
+    selection[7]=更新agent任务模块
+    selection[8]=更新agent场景模块
+    selection[9]=退出
     local cmd
     select cmd in ${selection[*]}
     do
@@ -307,6 +346,14 @@ function select_cmd(){
                 local service
                 read service
                 cmd_update_agent_service $service
+                break
+                ;;
+            更新agent任务模块)
+                cmd_update_agent_quest_mgr
+                break
+                ;;
+            更新agent场景模块)
+                cmd_update_agent_scene_mgr
                 break
                 ;;
             退出)
