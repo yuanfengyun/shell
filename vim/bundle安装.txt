@@ -1,0 +1,5 @@
+git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/
+
+vim里输入BundleUpdate
+
+配置~/.vimrc
